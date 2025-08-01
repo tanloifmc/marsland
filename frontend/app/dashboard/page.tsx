@@ -262,9 +262,16 @@ export default function DashboardPage() {
                             <h3 className="text-lg font-semibold text-white mr-3">
                               {certificate.certificate_id}
                             </h3>
-                            <Badge className={getStatusColor(certificate.status)}>
-                              {getStatusIcon(certificate.status)} {certificate.status.toUpperCase()}
-                            </Badge>
+                            {(() => {
+  const Icon = getStatusIcon(certificate.status);
+  return (
+    <Badge className={getStatusColor(certificate.status)}>
+      <Icon className="w-4 h-4 mr-1" />
+      {certificate.status.toUpperCase()}
+    </Badge>
+  );
+})()}
+
                           </div>
                           
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-400">
