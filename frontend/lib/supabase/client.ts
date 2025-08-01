@@ -1,4 +1,4 @@
-// This file is safe to be used in Client Components.
+// /lib/supabase/client.ts
 import { createBrowserClient } from '@supabase/ssr'
 import type { Database } from '@/types/database'
 
