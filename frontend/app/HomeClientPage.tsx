@@ -2,6 +2,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation' // <-- THÊM DÒNG NÀY
 import HeroSection from '@/components/HeroSection'
 import FeaturesSection from '@/components/FeaturesSection'
 import HowItWorksSection from '@/components/HowItWorksSection'
@@ -13,10 +14,10 @@ import AuthModal from '@/components/AuthModal'
 export default function HomeClientPage() {
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login')
+  const router = useRouter() // <-- THÊM DÒNG NÀY
 
   const handleAuthSuccess = () => {
     setShowAuthModal(false)
-    // Chuyển hướng đến dashboard sau khi đăng nhập/đăng ký thành công
     window.location.href = '/dashboard'
   }
 
@@ -27,7 +28,12 @@ export default function HomeClientPage() {
 
   return (
     <main className="flex flex-col min-h-screen">
-      <HeroSection onGetStarted={() => openAuthModal('signup')} />
+      {/* SỬA LẠI DÒNG DƯỚI ĐÂY */}
+      <HeroSection 
+        onGetStarted={() => openAuthModal('signup')} 
+        onVerify={() => router.push('/verify')} 
+        isLoggedIn={false} 
+      />
       <FeaturesSection />
       <HowItWorksSection />
       <StatsSection />
