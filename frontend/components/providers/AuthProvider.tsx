@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { User, SupabaseClient } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/client' // Đảm bảo import từ client mới
+import type { Database } from '@/types/database'
 import type { Profile } from '@/types/database'
 
 interface AuthContextType {
