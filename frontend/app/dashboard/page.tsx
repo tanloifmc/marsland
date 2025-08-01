@@ -334,7 +334,8 @@ export default function DashboardPage() {
 
       {showRequestModal && (
         <CertificateRequestModal
-          onClose={() => setShowRequestModal(false)}
+        isOpen={showRequestModal}
+        onClose={() => setShowRequestModal(false)}
           onSuccess={handleRequestSuccess}
         />
       )}
