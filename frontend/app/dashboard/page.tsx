@@ -16,7 +16,7 @@ import {
   Calendar
 } from 'lucide-react'
 import { useAuth } from '@/components/providers/AuthProvider'
-import { createClient } from '@/lib/supabase'
+import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
