@@ -1,0 +1,59 @@
+{
+  "name": "mars-land-certificate-system",
+  "version": "1.0.0",
+  "description": "Professional Mars land ownership certificate system with blockchain integration, QR code verification, and NFT-ready features",
+  "private": true,
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "start": "cd frontend && npm run start",
+    "lint": "cd frontend && npm run lint",
+    "type-check": "cd frontend && npm run type-check",
+    "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
+    "supabase:reset": "supabase db reset",
+    "supabase:deploy": "supabase functions deploy",
+    "setup": "npm run setup:frontend && npm run setup:supabase",
+    "setup:frontend": "cd frontend && npm install",
+    "setup:supabase": "supabase link --project-ref $SUPABASE_PROJECT_REF"
+  },
+  "keywords": [
+    "mars",
+    "land",
+    "certificate",
+    "blockchain",
+    "nft",
+    "space",
+    "ownership",
+    "verification",
+    "qr-code",
+    "paypal",
+    "supabase",
+    "nextjs",
+    "typescript"
+  ],
+  "author": {
+    "name": "Mars Land Certificate System",
+    "email": "tanloifmc@yahoo.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/mars-land-certificate-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/mars-land-certificate-system/issues"
+  },
+  "homepage": "https://marsland.vercel.app",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "workspaces": [
+    "frontend"
+  ],
+  "devDependencies": {
+    "supabase": "^1.110.0"
+  }
+}
+
