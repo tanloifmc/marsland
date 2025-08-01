@@ -90,7 +90,8 @@ export default function HomePage() {
       
       {showAuthModal && (
         <AuthModal
-          mode={authMode}
+          isOpen={showAuthModal}
+	  mode={authMode}
           onClose={() => setShowAuthModal(false)}
           onSuccess={handleAuthSuccess}
           onSwitchMode={(mode) => setAuthMode(mode)}
