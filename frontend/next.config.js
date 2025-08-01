@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
-  images: {
+    images: {
     domains: ['your-supabase-project.supabase.co'],
   },
   env: {
