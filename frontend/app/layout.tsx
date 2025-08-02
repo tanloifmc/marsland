@@ -3,8 +3,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
-import { AuthProvider } from '@/components/providers/AuthProvider'
-import { PayPalScriptProvider } from '@paypal/react-paypal-js'
+import AppProviders from '@/components/AppProviders'
 import Navigation from '@/components/Navigation'
 import { createClient } from '@/lib/supabase/server' // <-- SỬ DỤNG SERVER CLIENT
 
@@ -15,11 +14,7 @@ export const metadata: Metadata = {
   description: 'Own your piece of the Red Planet with verified Mars land certificates',
 }
 
-const paypalOptions = {
-  clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
-  currency: 'USD',
-  intent: 'capture',
-}
+// Đã chuyển sang AppProviders
 
 export default async function RootLayout({
   children,
@@ -41,17 +36,15 @@ export default async function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={`${inter.className} min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900`}>
-        <PayPalScriptProvider options={paypalOptions}>
-          <AuthProvider>
-            <div className="relative min-h-screen">
-              <Navigation user={user} profile={profile} />
-              <div className="relative z-10">
-                {children}
-              </div>
-              <Toaster />
+        <AppProviders>
+          <div className="relative min-h-screen">
+            <Navigation user={user} profile={profile} />
+            <div className="relative z-10">
+              {children}
             </div>
-          </AuthProvider>
-        </PayPalScriptProvider>
+            <Toaster />
+          </div>
+        </AppProviders>
       </body>
     </html>
   )
