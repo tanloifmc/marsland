@@ -5,6 +5,7 @@ import { Canvas, useFrame, useLoader } from '@react-three/fiber'
 import { OrbitControls, Sphere, Text, Html } from '@react-three/drei'
 import { TextureLoader, Vector3 } from 'three'
 import { motion } from 'framer-motion'
+import LandPurchaseModal from './LandPurchaseModal'
 
 interface LandPlot {
   id: string
@@ -147,10 +148,31 @@ function LoadingFallback() {
 // Main Mars 3D Viewer Component
 export default function Mars3DViewer({ onLandSelect, selectedLandId, showGrid = true }: Mars3DViewerProps) {
   const [selectedLand, setSelectedLand] = useState<LandPlot | null>(null)
+  const [showPurchaseModal, setShowPurchaseModal] = useState(false)
+  const [purchasedLands, setPurchasedLands] = useState<Set<string>>(new Set())
 
   const handleLandClick = (land: LandPlot) => {
     setSelectedLand(land)
     onLandSelect?.(land)
+  }
+
+  const handlePurchaseClick = () => {
+    if (selectedLand && !selectedLand.isOwned) {
+      setShowPurchaseModal(true)
+    }
+  }
+
+  const handlePurchaseSuccess = (land: LandPlot, certificateId: string) => {
+    setPurchasedLands(prev => new Set([...prev, land.id]))
+    setShowPurchaseModal(false)
+    // Update the selected land to show as owned
+    if (selectedLand?.id === land.id) {
+      setSelectedLand({
+        ...selectedLand,
+        isOwned: true,
+        owner: 'You'
+      })
+    }
   }
 
   return (
@@ -237,9 +259,17 @@ export default function Mars3DViewer({ onLandSelect, selectedLandId, showGrid = 
               <div><strong>Owner:</strong> {selectedLand.owner}</div>
             )}
             {!selectedLand.isOwned && (
-              <button className="w-full mt-3 bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded transition-colors">
+              <button 
+                onClick={handlePurchaseClick}
+                className="w-full mt-3 bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded transition-colors"
+              >
                 Purchase Land
               </button>
+            )}
+            {selectedLand.isOwned && (
+              <div className="w-full mt-3 bg-green-500/20 border border-green-500/40 text-green-400 py-2 px-4 rounded text-center">
+                {selectedLand.owner === 'You' ? 'Owned by You' : `Owned by ${selectedLand.owner}`}
+              </div>
             )}
           </div>
         </motion.div>
@@ -256,10 +286,17 @@ export default function Mars3DViewer({ onLandSelect, selectedLandId, showGrid = 
           <div>• Left click + drag: Rotate</div>
           <div>• Right click + drag: Pan</div>
           <div>• Scroll: Zoom</div>
-          <div>• Click land plots to select</div>
+          <div>• Click land plots to select          </div>
         </motion.div>
       </div>
+
+      {/* Land Purchase Modal */}
+      <LandPurchaseModal
+        land={selectedLand}
+        isOpen={showPurchaseModal}
+        onClose={() => setShowPurchaseModal(false)}
+        onPurchaseSuccess={handlePurchaseSuccess}
+      />
     </div>
   )
 }
-

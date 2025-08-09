@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/supabase'
 
 const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!
 const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET!
@@ -25,33 +25,35 @@ async function getPayPalAccessToken() {
 
 export async function POST(request: NextRequest) {
   try {
-    const { certificate_id, amount, currency = 'USD' } = await request.json()
+    const { land_id, amount, currency = 'USD', description } = await request.json()
 
-    if (!certificate_id || !amount) {
+    if (!land_id || !amount) {
       return NextResponse.json(
-        { error: 'Certificate ID and amount are required' },
+        { error: 'Missing required fields: land_id, amount' },
         { status: 400 }
       )
     }
 
-    // Verify certificate exists and is in correct status
+    // Verify land exists and is available
     const supabase = createClient()
-    const { data: certificate, error: certError } = await supabase
-      .from('certificates')
+    const { data: land, error: landError } = await supabase
+      .from('lands')
       .select('*')
-      .eq('certificate_id', certificate_id)
+      .eq('id', land_id)
+      .eq('is_owned', false)
       .single()
 
-    if (certError || !certificate) {
+    if (landError || !land) {
       return NextResponse.json(
-        { error: 'Certificate not found' },
+        { error: 'Land not found or already owned' },
         { status: 404 }
       )
     }
 
-    if (certificate.status !== 'approved') {
+    // Verify price matches
+    if (parseFloat(amount) !== land.price) {
       return NextResponse.json(
-        { error: 'Certificate must be approved before payment' },
+        { error: 'Price mismatch' },
         { status: 400 }
       )
     }
@@ -64,21 +66,20 @@ export async function POST(request: NextRequest) {
       intent: 'CAPTURE',
       purchase_units: [
         {
-          reference_id: certificate_id,
+          reference_id: land_id,
+          description: description || `Mars Land Plot ${land.land_id}`,
           amount: {
             currency_code: currency,
-            value: amount.toFixed(2),
+            value: amount,
           },
-          description: `Mars Land Certificate - ${certificate_id}`,
-          custom_id: certificate_id,
           payee: {
             email_address: 'tanloifmc@yahoo.com',
           },
         },
       ],
       application_context: {
-        brand_name: 'Mars Land Certificate System',
-        landing_page: 'BILLING',
+        brand_name: 'Mars Land',
+        landing_page: 'NO_PREFERENCE',
         user_action: 'PAY_NOW',
         return_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment/success`,
         cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment/cancel`,
@@ -94,35 +95,19 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify(orderData),
     })
 
-    const order = await response.json()
-
     if (!response.ok) {
-      console.error('PayPal order creation failed:', order)
+      const errorData = await response.json()
+      console.error('PayPal order creation failed:', errorData)
       return NextResponse.json(
-        { error: 'Failed to create PayPal order', details: order },
+        { error: 'Failed to create PayPal order' },
         { status: 500 }
       )
     }
 
-    // Record the order creation in database
-    await supabase
-      .from('payment_transactions')
-      .insert({
-        certificate_id: certificate.id,
-        user_id: certificate.owner_id,
-        payment_method: 'paypal',
-        payment_id: order.id,
-        amount: amount,
-        currency: currency,
-        status: 'pending',
-        payment_data: {
-          paypal_order_id: order.id,
-          order_details: order,
-        },
-      })
+    const order = await response.json()
 
     return NextResponse.json({
-      order_id: order.id,
+      orderID: order.id,
       status: order.status,
     })
 
