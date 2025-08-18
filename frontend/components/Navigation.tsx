@@ -36,6 +36,21 @@ export default function Navigation({ user, profile }: NavigationProps) {
                 <Link href="/dashboard">
                   <Button variant="ghost" className="text-gray-300 hover:text-white">Dashboard</Button>
                 </Link>
+                <Link href="/community">
+                  <Button variant="ghost" className="text-gray-300 hover:text-white">Community</Button>
+                </Link>
+                <Link href="/messages">
+                  <Button variant="ghost" className="text-gray-300 hover:text-white">Messages</Button>
+                </Link>
+                <Link href="/profile">
+                  <Button variant="ghost" className="text-gray-300 hover:text-white">Profile</Button>
+                </Link>
+                <Link href="/verify">
+                  <Button variant="ghost" className="text-gray-300 hover:text-white">Verify</Button>
+                </Link>
+                <Link href="/admin">
+                  <Button variant="ghost" className="text-gray-300 hover:text-white">Admin</Button>
+                </Link>
                 <span className="text-gray-400">|</span>
                 <span className="text-white">{profile?.full_name || user.email}</span>
                 <Button variant="ghost" size="sm" onClick={signOut} className="text-red-400 hover:text-red-300">
