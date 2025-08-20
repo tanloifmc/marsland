@@ -38,14 +38,16 @@ interface LandPlot {
 interface Building {
   id: string
   land_id: string
+  owner_id: string
   building_type: string
   name: string
   description: string
   grid_position: any
-  model_url: string
-  thumbnail_url: string
+  model_url?: string
+  thumbnail_url?: string
   is_public: boolean
   created_at: string
+  updated_at?: string
 }
 
 interface Certificate {
@@ -138,16 +140,32 @@ export default function DashboardPage() {
     }
   }
 
-  const handleSaveBuilding = (newBuilding: Building) => {
-    // Update the buildings list after saving
+  const handleSaveBuilding = (newBuilding: any) => {
+    // Chuẩn hóa dữ liệu nhận từ BuildingEditor (BuildingData) sang kiểu Building dùng trong state
+    const normalized: Building = {
+      id: newBuilding.id,
+      land_id: newBuilding.land_id,
+      owner_id: newBuilding.owner_id,
+      building_type: newBuilding.building_type,
+      name: newBuilding.name,
+      description: newBuilding.description,
+      grid_position: newBuilding.grid_position,
+      model_url: newBuilding.model_url ?? undefined,
+      thumbnail_url: newBuilding.thumbnail_url ?? undefined,
+      is_public: newBuilding.is_public ?? true,
+      created_at: newBuilding.created_at ?? new Date().toISOString(),
+      updated_at: newBuilding.updated_at ?? undefined,
+    }
+
+    // Cập nhật danh sách buildings
     setBuildings(prev => {
-      const existingIndex = prev.findIndex(b => b.id === newBuilding.id)
+      const existingIndex = prev.findIndex(b => b.id === normalized.id)
       if (existingIndex > -1) {
         const updated = [...prev]
-        updated[existingIndex] = newBuilding
+        updated[existingIndex] = normalized
         return updated
       } else {
-        return [newBuilding, ...prev]
+        return [normalized, ...prev]
       }
     })
     setShowBuildingEditor(false)

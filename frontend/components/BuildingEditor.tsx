@@ -34,6 +34,8 @@ interface BuildingData {
   model_url?: string;
   thumbnail_url?: string;
   is_public: boolean;
+  created_at?: string;
+  updated_at?: string;
 }
 
 interface BuildingEditorProps {
@@ -244,14 +246,15 @@ export default function BuildingEditor({ land, user, isOpen, onClose, onSave, in
         is_public: isPublic,
         model_url: uploadedModelUrl,
         thumbnail_url: uploadedThumbnailUrl,
+        updated_at: new Date().toISOString(), // Always update updated_at
       };
 
       if (currentBuilding.id) {
         // Update existing building
         const { data, error } = await supabase
-          .from('buildings')
+          .from("buildings")
           .update(buildingToSave)
-          .eq('id', currentBuilding.id)
+          .eq("id", currentBuilding.id)
           .select()
           .single();
         if (error) throw error;
@@ -259,8 +262,8 @@ export default function BuildingEditor({ land, user, isOpen, onClose, onSave, in
       } else {
         // Insert new building
         const { data, error } = await supabase
-          .from('buildings')
-          .insert(buildingToSave)
+          .from("buildings")
+          .insert({ ...buildingToSave, created_at: new Date().toISOString() }) // Add created_at for new buildings
           .select()
           .single();
         if (error) throw error;
