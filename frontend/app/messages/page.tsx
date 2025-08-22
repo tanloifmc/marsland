@@ -168,9 +168,11 @@ export default function MessagesPage() {
         if (nearbyError) throw nearbyError
 
         for (const land of nearbyLands || []) {
-          if (land.profiles) {
-            neighborProfiles.add(land.profiles as Profile)
-          }
+            if (land.profiles) {
+              // Ensure land.profiles is treated as a single Profile object
+              // Supabase 'single' relationship should return a single object or null
+              neighborProfiles.add(land.profiles as Profile);
+            }
         }
       }
 
