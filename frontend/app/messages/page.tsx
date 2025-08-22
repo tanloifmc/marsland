@@ -169,9 +169,12 @@ export default function MessagesPage() {
 
         for (const land of nearbyLands || []) {
             if (land.profiles) {
-              // Ensure land.profiles is treated as a single Profile object
               // Supabase 'single' relationship should return a single object or null
-              neighborProfiles.add(land.profiles as Profile);
+              // Ensure it's treated as a single Profile object
+              const profileToAdd = Array.isArray(land.profiles) ? land.profiles[0] : land.profiles;
+              if (profileToAdd) {
+                neighborProfiles.add(profileToAdd as Profile);
+              }
             }
         }
       }
