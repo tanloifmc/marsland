@@ -42,6 +42,9 @@ function MarsPlanet({ onLandClick, selectedLandId, showGrid }: {
         const id = `MARS-${lat}-${lng}`
         plots.push({
           id,
+          land_id: id, // Add land_id
+          latitude: lat, // Add latitude
+          longitude: lng, // Add longitude
           position: [x, y, z],
           isOwned: Math.random() > 0.7, // 30% owned
           owner: Math.random() > 0.7 ? `User${Math.floor(Math.random() * 1000)}` : undefined,
