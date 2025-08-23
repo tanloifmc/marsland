@@ -7,14 +7,7 @@ import { TextureLoader, Vector3 } from 'three'
 import { motion } from 'framer-motion'
 import LandPurchaseModal from './LandPurchaseModal'
 
-interface LandPlot {
-  id: string
-  position: [number, number, number]
-  isOwned: boolean
-  owner?: string
-  price: number
-  coordinates: { lat: number; lng: number }
-}
+import { LandPlot } from "@/types/land"
 
 interface Mars3DViewerProps {
   onLandSelect?: (land: LandPlot) => void

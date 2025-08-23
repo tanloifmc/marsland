@@ -5,17 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, MapPin, DollarSign, Globe, CheckCircle, AlertCircle } from 'lucide-react'
 import PayPalPayment from './PayPalPayment'
 
-interface LandPlot {
-  id: string
-  land_id: string
-  latitude: number
-  longitude: number
-  price: number
-  coordinates: { lat: number; lng: number }
-  position: [number, number, number]
-  isOwned: boolean
-  owner?: string
-}
+import { LandPlot } from "@/types/land"
 
 interface LandPurchaseModalProps {
   land: LandPlot | null
