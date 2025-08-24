@@ -8,5 +8,7 @@ export interface LandPlot {
   position: [number, number, number]
   isOwned: boolean
   owner?: string
+  purchased_at?: string
 }
+
 
