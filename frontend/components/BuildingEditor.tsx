@@ -7,21 +7,9 @@ import * as THREE from 'three';
 import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { Suspense } from 'react';
-import BuildingLibrary from './BuildingLibrary';
+import { LandPlot } from "@/types/land";
 
-interface LandPlot {
-  id: string;
-  land_id: string;
-  latitude: number;
-  longitude: number;
-  price: number;
-  is_owned: boolean;
-  owner_id: string;
-  purchased_at: string;
-  position_x: number;
-  position_y: number;
-  position_z: number;
-}
+
 
 interface BuildingData {
   id?: string;

@@ -19,21 +19,9 @@ import {
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase'
 import { User } from '@supabase/supabase-js'
-import BuildingEditor from '@/components/BuildingEditor'
+import { LandPlot } from "@/types/land"
 
-interface LandPlot {
-  id: string
-  land_id: string
-  latitude: number
-  longitude: number
-  price: number
-  is_owned: boolean
-  owner_id: string
-  purchased_at: string
-  position_x: number
-  position_y: number
-  position_z: number
-}
+
 
 interface Building {
   id: string

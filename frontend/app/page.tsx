@@ -5,16 +5,9 @@ import { motion } from 'framer-motion'
 import { Rocket, Globe, Users, Shield, Star, MapPin } from 'lucide-react'
 import Mars3DViewer from '@/components/Mars3DViewer'
 import { createClient } from '@/lib/supabase'
-import { User } from '@supabase/supabase-js'
+import { LandPlot } from "@/types/land"
 
-interface LandPlot {
-  id: string
-  position: [number, number, number]
-  isOwned: boolean
-  owner?: string
-  price: number
-  coordinates: { lat: number; lng: number }
-}
+
 
 export default function HomePage() {
   const [user, setUser] = useState<User | null>(null)

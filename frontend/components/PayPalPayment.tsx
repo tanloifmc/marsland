@@ -3,16 +3,9 @@
 import React, { useState } from 'react'
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
 import { motion } from 'framer-motion'
-import { CreditCard, Shield, CheckCircle, AlertCircle } from 'lucide-react'
+import { LandPlot } from "@/types/land"
 
-interface LandPlot {
-  id: string
-  land_id: string
-  latitude: number
-  longitude: number
-  price: number
-  coordinates: { lat: number; lng: number }
-}
+
 
 interface PayPalPaymentProps {
   land: LandPlot
