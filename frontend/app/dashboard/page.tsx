@@ -323,7 +323,7 @@ export default function DashboardPage() {
                       <div>
                         <p className="text-white font-semibold">Purchased {land.land_id}</p>
                         <p className="text-gray-300 text-sm">
-                          {new Date(land.purchased_at).toLocaleDateString()}
+                          {land.purchased_at ? new Date(land.purchased_at).toLocaleDateString() : 'N/A'}
                         </p>
                       </div>
                     </div>
@@ -387,7 +387,7 @@ export default function DashboardPage() {
                     <div className="flex justify-between">
                       <span className="text-gray-400">Purchased:</span>
                       <span className="text-white">
-                        {new Date(land.purchased_at).toLocaleDateString()}
+                        {land.purchased_at ? new Date(land.purchased_at).toLocaleDateString() : 'N/A'}
                       </span>
                     </div>
                   </div>
