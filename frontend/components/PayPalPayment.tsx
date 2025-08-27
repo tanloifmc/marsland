@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
 import { motion } from 'framer-motion'
+import { CheckCircle, AlertCircle, CreditCard, Shield } from 'lucide-react'
 import { LandPlot } from "@/types/land"
 
 
