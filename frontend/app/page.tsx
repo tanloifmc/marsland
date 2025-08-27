@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Rocket, Globe, Users, Shield, Star, MapPin } from 'lucide-react'
 import Mars3DViewer from '@/components/Mars3DViewer'
 import { createClient } from '@/lib/supabase'
+import { User } from '@supabase/supabase-js'
 import { LandPlot } from "@/types/land"
 
 
