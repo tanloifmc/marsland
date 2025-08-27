@@ -20,6 +20,11 @@ import {
 import { createClient } from '@/lib/supabase'
 import { User } from '@supabase/supabase-js'
 import { LandPlot } from "@/types/land"
+import BuildingEditor from "@/components/BuildingEditor"
+
+
+
+
 
 
 
